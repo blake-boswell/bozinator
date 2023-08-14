@@ -1,5 +1,5 @@
 import {
-  getServerSession,
+  getServerSession as nextAuthGetServerSession,
   DefaultSession,
   SessionOptions,
   SessionStrategy,
@@ -41,5 +41,5 @@ export const sessionOptions = {
   },
 };
 
-export const getSession = (): Promise<DefaultSession | null> =>
-  getServerSession(sessionOptions);
+export const getServerSession = () =>
+  nextAuthGetServerSession(sessionOptions);

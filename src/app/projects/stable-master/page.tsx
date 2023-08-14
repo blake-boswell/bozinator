@@ -1,11 +1,10 @@
-'use client';
-
 import { useSession } from 'next-auth/react';
 import { LoginButton, RegisterButton, LogoutButton, ProfileButton } from '@/components/auth/Buttons';
 import { User } from '@/components/user/User';
+import { getServerSession } from '@/lib/auth';
 
 export default async function Home() {
-  const { data: session, status } = useSession();
+  const session = await getServerSession();
   const user = session ? session.user : null;
 
   return (
@@ -16,7 +15,7 @@ export default async function Home() {
           Apartment parking, made simpler. Never type in those pesky car details
           again.
         </p>
-        {status === 'authenticated' && user ? (
+        {user ? (
           <>
             <div>Welcome {user.name}</div>
           </>
