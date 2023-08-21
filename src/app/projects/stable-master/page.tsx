@@ -18,6 +18,9 @@ export default async function Home() {
         {user ? (
           <>
             <div>Welcome {user.name}</div>
+            <User />
+            <LogoutButton />
+            <ProfileButton />
           </>
         ) : (
           <div style={{
@@ -31,8 +34,6 @@ export default async function Home() {
               <RegisterButton />
               <pre>{JSON.stringify(session)}</pre>
               <User />
-              <LogoutButton />
-              <ProfileButton />
             </div>
             {/* Log in to create and use your car profile for instant parking!
 
