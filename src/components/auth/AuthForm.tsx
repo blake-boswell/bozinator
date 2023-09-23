@@ -8,7 +8,7 @@ function AuthForm() {
   const user = session ? session.user : null;
 
   function handleSignIn() {
-    signIn('email', {
+    signIn('mailgun', {
       username: email,
     });
   }

@@ -1,71 +1,34 @@
 import {
   getServerSession as nextAuthGetServerSession,
-  DefaultSession,
-  SessionOptions,
   SessionStrategy,
   NextAuthOptions,
 } from 'next-auth';
-import EmailProvider from 'next-auth/providers/email';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { sendVerificationRequest } from './mailer';
-import { compare } from 'bcryptjs';
 import { prisma } from './prisma';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 
-const { NEXTAUTH_SECRET, EMAIL_SERVER, EMAIL_FROM } = process.env;
+const { NEXTAUTH_SECRET, EMAIL_FROM } = process.env;
 
 export const sessionOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt' as SessionStrategy,
   },
   jwt: {
     secret: NEXTAUTH_SECRET,
   },
+  debug: true,
   providers: [
-    // EmailProvider({
-    //   server: EMAIL_SERVER,
-    //   from: EMAIL_FROM,
-    //   sendVerificationRequest: sendVerificationRequest,
-    // }),
-    CredentialsProvider({
-      name: "Sign in",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "example@example.com",
-        },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        // 1. Verify if email and pw were included in request body
-        if (!credentials?.email || !credentials.password) {
-          return null;
-        }
-
-        // 2. Retrieve user from DB with the given email
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
-
-        // 3. Verify provided PW against the hashed PW in DB
-        if (!user || !(await compare(credentials.password, user.password))) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          randomKey: "Hey cool",
-        };
-      },
-    }),
+    {
+      id: 'mailgun',
+      type: 'email',
+      from: EMAIL_FROM,
+      sendVerificationRequest: sendVerificationRequest,
+    } as any,
   ],
   callbacks: {
     session: ({ session, token }) => {
-      console.log("Session Callback", { session, token });
+      console.log('Session Callback', { session, token });
       return {
         ...session,
         user: {
@@ -77,7 +40,7 @@ export const sessionOptions: NextAuthOptions = {
       };
     },
     jwt: ({ token, user }) => {
-      console.log("JWT Callback", { token, user });
+      console.log('JWT Callback', { token, user });
       if (user) {
         const u = user as unknown as any;
         return {
@@ -90,7 +53,10 @@ export const sessionOptions: NextAuthOptions = {
       return token;
     },
   },
+  pages: {
+    signIn: '/auth/sign-in',
+    newUser: '/auth/register',
+  },
 };
 
-export const getServerSession = () =>
-  nextAuthGetServerSession(sessionOptions);
+export const getServerSession = () => nextAuthGetServerSession(sessionOptions);

@@ -1,41 +1,28 @@
-import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
-import { NextResponse } from "next/server";
+import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import { schema } from './validation';
 
 export async function POST(req: Request) {
   try {
-    // 1. Get user credentials
-    const { name, email, password } = (await req.json()) as {
-      name: string;
-      email: string;
-      password: string;
-    };
+    // 1. Get user info
+    const { email } = schema.parse(await req.json());
 
-    // 2. Hash user PW
-    const hashed_password = await hash(password, 12);
-
-    // 3. Save user to the DB
-    const user = await prisma.user.create({
+    // 2. Save user to the DB
+    await prisma.user.create({
       data: {
-        name,
         email: email.toLowerCase(),
-        password: hashed_password,
       },
     });
 
-    return NextResponse.json({
-      user: {
-        name: user.name,
-        email: user.email,
-      },
-    });
+    const redirectUrl = new URL('/auth/sign-in', req.url);
+    return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
     return new NextResponse(
       JSON.stringify({
-        status: "error",
+        status: 'error',
         message: error.message,
       }),
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

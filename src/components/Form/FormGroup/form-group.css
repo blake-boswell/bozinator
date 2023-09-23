@@ -1,0 +1,4 @@
+.form-group > .input, 
+.form-group > .text-field {
+  margin-bottom: 8px;
+}

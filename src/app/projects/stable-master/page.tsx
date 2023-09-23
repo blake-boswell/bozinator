@@ -1,7 +1,7 @@
-import { useSession } from 'next-auth/react';
-import { LoginButton, RegisterButton, LogoutButton, ProfileButton } from '@/components/auth/Buttons';
+import { LoginButton, RegisterButton, LogoutButton } from '@/components/auth/Buttons';
 import { User } from '@/components/user/User';
 import { getServerSession } from '@/lib/auth';
+import Link from 'next/link';
 
 export default async function Home() {
   const session = await getServerSession();
@@ -20,7 +20,7 @@ export default async function Home() {
             <div>Welcome {user.name}</div>
             <User />
             <LogoutButton />
-            <ProfileButton />
+            <Link href="/projects/stable-master/profile">Profile</Link>
           </>
         ) : (
           <div style={{

@@ -17,18 +17,18 @@ export async function sendVerificationRequest({
   const { host } = new URL(url);
   try {
     const result = await mailer.messages.create(from || '', {
-      from: `Parker the Parkbot <${from || 'noreply@example.com'}>`,
+      from: `Parker the Parkbot <mailgun@${from}>`,
       to: [email],
       subject: `Sign in to ${host}`,
       text: text({ url, host }),
       html: emailVerificationHtml({ url, host, theme }),
     });
-    console.log(result);
     if (result.status >= 400) {
       throw new Error(`Email could not be sent to ${email}`);
     }
   } catch (err) {
-    console.log(err);
+    console.log('Error sending verification email: ', err);
+    throw err;
   }
 }
 
