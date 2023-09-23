@@ -2,6 +2,7 @@ import * as FormData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { SendVerificationRequestParams } from 'next-auth/providers/email';
 import { Theme } from 'next-auth';
+import logger from './pino';
 const mailgun = new Mailgun(FormData as any);
 const mailer = mailgun.client({
   username: 'api',
@@ -24,10 +25,11 @@ export async function sendVerificationRequest({
       html: emailVerificationHtml({ url, host, theme }),
     });
     if (result.status >= 400) {
+      logger.error(`Email could not be sent to ${email}`);
       throw new Error(`Email could not be sent to ${email}`);
     }
   } catch (err) {
-    console.log('Error sending verification email: ', err);
+    logger.error('Error sending verification email: %o', err);
     throw err;
   }
 }
@@ -96,17 +98,5 @@ function emailVerificationHtml(params: {
 function text({ url, host }: { url: string; host: string }) {
   return `Sign in to ${host}\n${url}\n\n`;
 }
-
-// mailer.messages
-//   .create('sandbox8eae26c6863f4e31ad9b5d02a77cb5ee.mailgun.org', {
-//     from:
-//       'Parker the Parkbot <mailgun@sandbox8eae26c6863f4e31ad9b5d02a77cb5ee.mailgun.org>',
-//     to: ['test@example.com'],
-//     subject: 'Hello',
-//     text: 'Testing some Mailgun awesomeness!',
-//     html: '<h1>Testing some Mailgun awesomeness!</h1>',
-//   })
-//   .then(msg => console.log(msg)) // logs response data
-//   .catch(err => console.log(err)); // logs any error
 
 export default mailer;

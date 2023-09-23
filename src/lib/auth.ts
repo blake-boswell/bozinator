@@ -6,6 +6,7 @@ import {
 import { sendVerificationRequest } from './mailer';
 import { prisma } from './prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import logger from './pino';
 
 const { NEXTAUTH_SECRET, EMAIL_FROM } = process.env;
 
@@ -27,30 +28,45 @@ export const sessionOptions: NextAuthOptions = {
     } as any,
   ],
   callbacks: {
+    jwt: ({ token, user, account, profile }) => {
+      if (user && account) {
+        logger.debug(
+          `Creating JWT token %o for user %o.${account ? ` Provider: %o` : ''}`,
+          token,
+          user,
+          account,
+        );
+      } else {
+        logger.debug(`Updating JWT token.`);
+      }
+
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
+      if (profile) {
+        token.name = profile.name;
+        token.email = profile.email;
+      }
+
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
+
+      return token;
+    },
     session: ({ session, token }) => {
-      console.log('Session Callback', { session, token });
+      logger.debug('Checking session %o', session);
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
-          // You can add any additional info about the user
-          randomKey: token.randomKey,
+          accessToken: token.accessToken,
         },
       };
-    },
-    jwt: ({ token, user }) => {
-      console.log('JWT Callback', { token, user });
-      if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
-          id: u.id,
-          // You can add any additional info about the user
-          randomKey: u.randomKey,
-        };
-      }
-      return token;
     },
   },
   pages: {
