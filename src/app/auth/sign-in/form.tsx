@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { getCsrfToken, signIn } from 'next-auth/react';
+import { getCsrfToken, signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Card from '@/components/Card';
 import TextField from '@/components/Form/TextField/TextField';
@@ -11,6 +11,7 @@ import styles from './form.module.css';
 type SigninMode = null | 'magic-email' | 'credentials';
 
 export default function SignInForm() {
+  const { data: session, status } = useSession();
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
   const [mode, setMode] = useState<SigninMode>(null);
   const [email, setEmail] = useState('');
@@ -23,6 +24,22 @@ export default function SignInForm() {
 
     getToken();
   }, []);
+
+  if (status === 'authenticated') {
+    return (
+      <Card>
+        <Card.Header>{session.user && `Hi ${session.user.name || session.user.email || 'there'}. `}</Card.Header>
+        <Card.Body>
+          <p>
+            It looks like you&apos;re already signed in. Would you like to sign out?
+          </p>
+          <div>
+            <Button className={styles.button} variant="accent" onPress={() => signOut()}>Sign out</Button>
+          </div>
+        </Card.Body>
+      </Card>
+    )
+  }
 
   return (
     <Card>

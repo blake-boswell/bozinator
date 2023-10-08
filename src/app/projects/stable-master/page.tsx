@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import { LoginButton, RegisterButton, LogoutButton } from '@/components/auth/Buttons';
 import { User } from '@/components/user/User';
 import { getServerSession } from '@/lib/auth';
@@ -17,10 +18,10 @@ export default async function Home() {
         </p>
         {user ? (
           <>
-            <div>Welcome {user.name}</div>
-            <User />
-            <LogoutButton />
-            <Link href="/projects/stable-master/profile">Profile</Link>
+            <div>Welcome {user.name || user.email}</div>
+            <div>
+              <Link href="/projects/stable-master/create">Park a new car</Link>
+            </div>
           </>
         ) : (
           <div style={{

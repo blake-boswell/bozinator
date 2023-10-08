@@ -1,0 +1,21 @@
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: currentColor currentColor transparent;
+  border-image: initial;
+  display: inline-block;
+  animation: .75s linear 0s infinite normal both running spin;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

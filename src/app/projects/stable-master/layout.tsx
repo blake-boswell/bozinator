@@ -5,6 +5,6 @@ export default async function StableMasterLayout({
 }) {
 
 return (
-    <main>{children}</main>
+    <main className="container">{children}</main>
   );
 }

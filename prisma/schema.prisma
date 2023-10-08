@@ -46,6 +46,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  cars          Car[]
 }
 
 model VerificationToken {
@@ -54,4 +55,16 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Car {
+  id             String @id @default(cuid())
+  make           String
+  model          String
+  color          String
+  licensePlateNo String
+  userId         String
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([make, model, color, licensePlateNo])
 }
