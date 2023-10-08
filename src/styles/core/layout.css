@@ -4,4 +4,59 @@
   --space-md: 8px;
   --space-lg: 16px;
   --space-xl: 32px;
+  @for $i from 1 to 12 {
+    --space-$(i): calc($(i) * 4px);
+  }
+}
+
+@for $i from 1 to 12 {
+  .mb-$(i) {
+    margin-bottom: var(--space-$(i));
+  }
+
+  .mt-$(i) {
+    margin-top: var(--space-$(i));
+  }
+
+  .my-$(i) {
+    margin-block: var(--space-$(i));
+  }
+
+  .ml-$(i) {
+    margin-left: var(--space-$(i));
+  }
+
+  .mr-$(i) {
+    margin-right: var(--space-$(i));
+  }
+
+  .mx-$(i) {
+    margin-inline: var(--space-$(i));
+  }
+}
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+
+  @media (min-width: 1536px) {
+    max-width: 1536px;
+  }
 }

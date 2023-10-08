@@ -22,6 +22,7 @@
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
     "form-data": "^4.0.0",
+    "framer-motion": "^10.16.4",
     "mailgun.js": "^9.2.0",
     "next": "13.4.6",
     "next-auth": "^4.23.0",
@@ -38,6 +39,11 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "postcss": "^8.4.31",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-for": "^2.1.1",
+    "postcss-nesting": "^12.0.1",
+    "postcss-preset-env": "^9.1.4",
     "prisma": "^5.2.0",
     "ts-node": "^10.9.1"
   }
