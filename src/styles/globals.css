@@ -5,15 +5,16 @@
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  font-size: var(--font-base);
+  letter-spacing: 0.5px;
+  font-family: 'Roboto', 'Segoe UI', Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -28,6 +29,10 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+p {
+  margin-bottom: var(--space-lg);
 }
 
 @media (prefers-color-scheme: dark) {

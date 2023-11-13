@@ -1,0 +1,12 @@
+.cars {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.car {
+  width: 33.33%;
+}
+
+.car-title {
+  margin-bottom: var(--space-md);
+}

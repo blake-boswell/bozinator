@@ -1,0 +1,71 @@
+:root {
+  --font-xxxxl: 96px;
+  --font-xxxl: 60px;
+  --font-xxl: 48px;
+  --font-xl: 34px;
+  --font-lg: 24px;
+  --font-md: 20px;
+  --font-base: 16px;
+  --font-sm: 14px;
+  --font-xs: 12px;
+}
+
+h1,
+.h1 {
+  font-size: var(--font-xxxxl);
+  font-weight: 300;
+  letter-spacing: -1.5px;
+}
+
+h2,
+.h2 {
+  font-size: var(--font-xxxl);
+  font-weight: 300;
+  letter-spacing: -0.5px;
+}
+
+h3,
+.h3 {
+  font-size: var(--font-xxl);
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h4,
+.h4 {
+  font-size: var(--font-xl);
+  font-weight: 400;
+  letter-spacing: 0.25px;
+}
+
+h5,
+.h5 {
+  font-size: var(--font-lg);
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+h6,
+.h6 {
+  font-size: var(--font-md);
+  font-weight: 500;
+  letter-spacing: 0.15px;
+}
+
+.subtitle {
+  font-size: var(--font-base);
+  font-weight: 400;
+  letter-spacing: 0.15px;
+}
+
+.subtitle-2 {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.caption {
+  font-size: var(--font-xs);
+  font-weight: 400;
+  letter-spacing: 0.4px;
+}

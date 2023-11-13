@@ -1,0 +1,18 @@
+.container {
+  height: 95vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-xl);
+}
+
+.park {
+  /* height: 50vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

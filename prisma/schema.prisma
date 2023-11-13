@@ -46,7 +46,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  cars          Car[]
+  cars          UserCar[]
 }
 
 model VerificationToken {
@@ -58,13 +58,23 @@ model VerificationToken {
 }
 
 model Car {
+  id       String    @id @default(cuid())
+  make     String
+  model    String
+  color    String
+  imageUrl String?
+  userCars UserCar[]
+
+  @@unique([make, model, color])
+}
+
+model UserCar {
   id             String @id @default(cuid())
-  make           String
-  model          String
-  color          String
   licensePlateNo String
   userId         String
+  carId          String
   user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  car            Car    @relation(fields: [carId], references: [id], onDelete: Cascade)
 
-  @@unique([make, model, color, licensePlateNo])
+  @@unique([carId, licensePlateNo, userId])
 }

@@ -1,15 +1,22 @@
 .btn {
-  display: flex;
+  --btn-border-color: var(--color-border);
+  --btn-bg-color: transparent;
+  --btn-color: inherit;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* gap: var(--space-2); */
   cursor: pointer;
   padding: 8px 12px;
-  background-color: transparent;
-  border-color: var(--color-border);
-  border: 1px solid var(--color-border);
+  color: var(--btn-color);
+  background-color: var(--btn-bg-color);
+  border: 1px solid var(--btn-border-color);
+  border-color: var(--btn-border-color);
   border-radius: 6px;
   position: relative;
+}
+
+a.btn {
+  text-decoration: none;
 }
 
 .btn--sm {
@@ -22,20 +29,35 @@
   padding: 10px 16px;
 }
 
-.btn:hover, .btn:focus-visible {
+.btn:hover,
+.btn:focus-visible {
   background-color: var(--color-surface);
   border-color: var(--color-border-heavy);
 }
 
 .btn-accent {
-  color: var(--color-text-black);
-  background-color: var(--color-accent);
-  border-color: var(--color-acent);
+  --btn-border-color: var(--color-acent);
+  --btn-bg-color: var(--color-accent);
+  --btn-color: var(--color-text-black);
 }
 
-.btn-accent:hover, .btn-accent:focus-visible {
+.btn-accent:hover,
+.btn-accent:focus-visible {
   background-color: var(--color-accent-darkened);
   border-color: var(--color-accent-darkened);
+}
+
+.btn-success {
+  --btn-border-color: var(--color-success);
+  --btn-bg-color: var(--color-success);
+  --btn-color: var(--color-text-white);
+}
+
+.btn-success:hover,
+.btn-success:focus-visible {
+  background-color: var(--color-success-darkened);
+  border-color: var(--color-success-darkened);
+  color: var(--color-text-white);
 }
 
 .btn-accent-outline {
@@ -44,14 +66,15 @@
   border-color: var(--color-accent);
 }
 
-.btn-accent-outline:hover, .btn-accent-outline:focus-visible {
+.btn-accent-outline:hover,
+.btn-accent-outline:focus-visible {
   color: var(--color-text-black);
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.btn:disabled, .btn--loading {
+.btn:disabled,
+.btn--loading {
   cursor: default;
-  opacity: .65;
-
+  opacity: 0.65;
 }

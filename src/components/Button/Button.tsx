@@ -19,7 +19,7 @@ function Button({ className, variant, size, loading, icon, ...ariaProps}: Button
   const { buttonProps } = useButton(ariaProps, ref);
 
   return (
-    <button className={`btn${variant ? ` btn-${variant}` : ''}${size ? ` btn--${size}` : ''}${loading ? ` btn--loading` : ''}${className ? ` ${className}` : ''}`} {...buttonProps} disabled={buttonProps.disabled || loading} ref={ref}>
+    <button className={`btn${variant ? ` btn-${variant}` : ''}${size ? ` btn--${size}` : ''}${loading ? ` btn--loading` : ''}${icon ? ` btn--icon` : ''}${className ? ` ${className}` : ''}`} {...buttonProps} disabled={buttonProps.disabled || loading} ref={ref}>
       <AnimatePresence>
         {loading && !icon ? (
           <>
@@ -29,12 +29,12 @@ function Button({ className, variant, size, loading, icon, ...ariaProps}: Button
           </>
         ) : loading ? (
           <Spinner size={14} style={{ marginRight: 8}} />
-        ) : (
+        ) : icon ? (
           <>
             {icon}
             <span style={{ marginRight: 8 }} />
           </>
-        )}
+        ) : null}
       </AnimatePresence>
       {children}
     </button>

@@ -17,7 +17,7 @@
   --red-hsl: 350, 96%, 43%;
   --bright-red-hsl: 353, 86%, 54%;
   --light-red-hsl: 353, 100%, 70%;
-  --green-hsl: 146, 100%, 35%;
+  --green-hsl: 146, 100%, 25%;
   --dark-green-hsl: 146, 100%, 20%;
 
   /* Descriptive color variants */
@@ -30,6 +30,7 @@
 
   --color-success-hsl: var(--green-hsl);
   --color-success: hsl(var(--color-success-hsl));
+  --color-success-darkened: hsl(var(--dark-green-hsl));
 
   --color-danger-hsl: var(--red-hsl);
   --color-danger: hsl(var(--color-danger-hsl));
@@ -43,18 +44,18 @@
   /* Background surface colors */
   --color-background: hsl(var(--black-hsl));
   --color-surface: hsl(var(--chalk-board-black-hsl));
-  --color-surface-2: hsl( var(--dark-navy-hsl));
+  --color-surface-2: hsl(var(--dark-navy-hsl));
   --color-border: hsl(210, 9%, 15%);
   --color-border-heavy: hsla(210, 11%, 71%, 0.75);
 
   /* Text colors */
   --color-text: hsl(var(--white-hsl));
-  --color-text-muted: hsl( var(--light-gray-hsl));
+  --color-text-muted: hsl(var(--light-gray-hsl));
   --color-text-black: hsl(var(--black-hsl));
   --color-text-white: hsl(var(--white-hsl));
-  --color-text-danger: hsl( var(--light-red-hsl));
-  --color-text-success: hsl( var(--green-hsl));
-  --color-text-warning: hsl( var(--yellow-hsl));
+  --color-text-danger: hsl(var(--light-red-hsl));
+  --color-text-success: hsl(var(--green-hsl));
+  --color-text-warning: hsl(var(--yellow-hsl));
 }
 
 .text-danger {

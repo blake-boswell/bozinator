@@ -1,0 +1,7 @@
+.form__global-message {
+  margin-bottom: var(--space-1);
+}
+
+.form__global-message--error {
+  color: var(--color-danger);
+}
