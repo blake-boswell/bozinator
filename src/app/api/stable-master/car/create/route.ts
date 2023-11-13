@@ -5,16 +5,8 @@ import { RegisteredCar } from '@/types/car';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { ZodError, z } from 'zod';
-
-const schema = z.object({
-  make: z.string().min(1, { message: 'Car make is required.' }),
-  model: z.string().min(1, { message: 'Car model is required.' }),
-  color: z.string().min(1, { message: 'Car color is required.' }),
-  licensePlate: z.string().min(1, { message: 'License plate is required.' }),
-});
-
-export { schema };
+import { ZodError } from 'zod';
+import { schema } from './validation';
 
 export async function POST(req: Request) {
   // Check for user
