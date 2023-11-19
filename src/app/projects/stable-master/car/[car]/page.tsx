@@ -1,8 +1,9 @@
 import styles from './page.module.css';
-import { BackButton } from "@/components/Button/Back/BackButton";
 import { ArcadeButton } from "@/components/Button/Arcade/ArcadeButton";
 import TextField from "@/components/Form/TextField/TextField";
 import { getRegisteredCarById } from "@/utils/car";
+import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -22,16 +23,13 @@ export default async function Page({ params }: { params: { car: string }}) {
       {/* <CarDetails /> */}
       <div className={styles.title}>
         <h1 className="h3 mb-3">{car.color} {car.make} {car.model}</h1>
-        <BackButton>&larr; Back to my cars</BackButton>
+        <Link className="btn" href="../">&larr; Back to my cars</Link>
       </div>
       <div className={styles.park}>
         <ArcadeButton>Push to Park</ArcadeButton>
       </div>
       <div className={styles.info}>
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://placehold.co/100x67" width="auto" height="100%" alt={`${car.color} ${car.make} ${car.model}`} />
-        </div>
+        <Image src={car.imageUrl || '/public/car-placeholder'} width={500} height={500} style={{ width: '100%', height: 'auto' }} alt={`${car.color} ${car.make} ${car.model}`} />
         <div className={styles.details}>
           <h2 className="h5 mb-3">Car Details</h2>
           <TextField

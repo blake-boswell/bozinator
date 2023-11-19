@@ -2,12 +2,22 @@
 
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import Button from "../Button";
+import { ButtonProps } from "../Button/Button";
+import { PressEvent } from "@react-types/shared";
 
-export const LoginButton = () => {
+export const LoginButton = ({ onPress, variant = 'accent', ...props}: ButtonProps) => {
+  function handlePress(e: PressEvent) {
+    signIn(undefined, { callbackUrl: '/' });
+    if (onPress) {
+      onPress(e);
+    }
+  }
+
   return (
-    <button style={{ marginRight: 10 }} onClick={() => signIn()}>
+    <Button variant={variant} onPress={handlePress} {...props}>
       Sign in
-    </button>
+    </Button>
   );
 };
 

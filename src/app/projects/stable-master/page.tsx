@@ -1,8 +1,8 @@
 import Card from '@/components/Card';
-import { LoginButton, RegisterButton } from '@/components/auth/Buttons';
-import { User } from '@/components/user/User';
+import { LoginButton } from '@/components/auth/Buttons';
 import { getServerSession } from '@/lib/auth';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './page.module.css';
 import { getRegisteredCars } from '@/utils/car';
 
@@ -25,8 +25,7 @@ export default async function Home() {
               {cars.map((car) => (
                 <Link href={`/projects/stable-master/car/${car.id}`} className={styles.car}  key={car.id}>
                   <Card>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="https://placehold.co/100x67" width="100%" height="auto" alt={`${car.color} ${car.make} ${car.model}`} />
+                    <Image src={car.imageUrl || '/public/car-placeholder'} width={500} height={500} style={{ width: '100%', height: 'auto' }} alt={`${car.color} ${car.make} ${car.model}`} />
                     <Card.Body>
                       <div className={`h5 ${styles['car-title']}`}>{car.color} {car.make} {car.model}</div>
                       <div className="h6">{car.licensePlateNo}</div>
@@ -47,10 +46,7 @@ export default async function Home() {
             height: "70vh",
           }}>
             <div>
-              <LoginButton />
-              <RegisterButton />
-              <pre>{JSON.stringify(session)}</pre>
-              <User />
+              <LoginButton className="h4" />
             </div>
             {/* Log in to create and use your car profile for instant parking!
 

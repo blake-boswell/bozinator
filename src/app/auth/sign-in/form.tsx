@@ -35,6 +35,7 @@ export default function SignInForm() {
           </p>
           <div>
             <Button className={styles.button} variant="accent" onPress={() => signOut()}>Sign out</Button>
+            <Button className={styles.button} onPress={() => history.back()}>Stay signed in</Button>
           </div>
         </Card.Body>
       </Card>
@@ -69,7 +70,7 @@ export default function SignInForm() {
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                 <TextField className={styles.input} value={email} onChange={setEmail} label="Email" name="email" type="email" placeholder="zebratang1@gmail.com" />
               </FormGroup>
-              <Button className={styles.button} variant="accent" type="button" onPress={() => signIn('mailgun', { email })}>Email magic link</Button>
+              <Button className={styles.button} variant="accent" type="button" onPress={() => signIn('mailgun', { email, callbackUrl: '/' })}>Email magic link</Button>
               <hr />
               <div className={styles.footer}>Don&apos;t have an account? <Link href="/auth/register">Register</Link></div>
             </form>
