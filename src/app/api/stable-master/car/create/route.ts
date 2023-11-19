@@ -1,3 +1,4 @@
+import { put } from '@vercel/blob';
 import { sessionOptions } from '@/lib/auth';
 import logger from '@/lib/pino';
 import { prisma } from '@/lib/prisma';
@@ -61,17 +62,79 @@ export async function POST(req: Request) {
       carId = car.id;
       imageUrl = car.imageUrl;
     } else {
+      // Generate new car image
+      if (process.env.NODE_ENV === 'production') {
+        const form = new FormData();
+        form.append('prompt', `cartoon ${color} ${make} ${model}`);
+
+        try {
+          const carResponse = await fetch(
+            'https://clipdrop-api.co/text-to-image/v1',
+            {
+              method: 'POST',
+              headers: {
+                'x-api-key': process.env.CLIPDROP_API_KEY || '',
+              },
+              body: form,
+            },
+          );
+
+          if (carResponse.status === 400) {
+            throw new Error(
+              '[Clipdrop image generation] Request is malformed or incomplete. It could be one of: Missing image_file in request, input image format is not valid, or image resolution is too big',
+            );
+          } else if (carResponse.status === 401) {
+            throw new Error(
+              '[Clipdrop image generation] Missing Clipdrop API key.',
+            );
+          } else if (carResponse.status === 402) {
+            throw new Error(
+              '[Clipdrop image generation] Clipdrop account has no remaining credits. Purchase more on the account page.',
+            );
+          } else if (carResponse.status === 403) {
+            throw new Error(
+              '[Clipdrop image generation] Invalid or revocated API key.',
+            );
+          } else if (carResponse.status === 429) {
+            throw new Error(
+              '[Clipdrop image generation] Too many requests, blocked by the rate limiter.',
+            );
+          } else if (carResponse.status === 500) {
+            let message = '[Clipdrop image generation] Unknown Clipdrop error.';
+            if (carResponse.bodyUsed) {
+              const body = await carResponse.json();
+              message = `${message} ${JSON.stringify(body)}`;
+            }
+            throw new Error(message);
+          }
+
+          const carImageBuffer = await carResponse.arrayBuffer();
+
+          const blob = await put(
+            `cars/${make}/${model}/${color}-${make}-${model}.jpg`,
+            carImageBuffer,
+            {
+              access: 'public',
+              addRandomSuffix: false,
+            },
+          );
+
+          imageUrl = blob.url;
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
       // Create new car
       const newCar = await prisma.car.create({
         data: {
           make,
           model,
           color,
-          imageUrl: `/public/${make}/${model}/${color}-${make}-${model}.png`,
+          imageUrl,
         },
       });
       carId = newCar.id;
-      imageUrl = newCar.imageUrl;
     }
 
     // Create new user owned car

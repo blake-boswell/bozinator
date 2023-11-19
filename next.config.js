@@ -6,6 +6,11 @@ const nextConfig = {
     appDir: true,
     serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"]
   },
+  images: {
+    remotePatterns: [
+      { hostname: 'lufqyyqknnqe84vp.public.blob.vercel-storage.com' }
+    ]
+  }
 }
 
 module.exports = nextConfig
